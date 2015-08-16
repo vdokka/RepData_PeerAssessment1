@@ -5,7 +5,7 @@ This report was made as part of an assignment in the Coursera *Reproducible Rese
 
 ## Loading and preprocessing the data
 In order for this code to work, the ZIP file containing the activity data must be inside the working directory.
-It can be obtained [here](https://d396qusza40orc.cloudfront.net/repdata%2Fdata%2Factivity.zip)
+It can be fetched from this location over the internet [here](https://d396qusza40orc.cloudfront.net/repdata%2Fdata%2Factivity.zip)
 
 
 ```r
@@ -24,12 +24,11 @@ head(activityData)
 ## 6    NA 2012-10-01       25
 ```
 
-Using read.csv(), we have the data in a dataframe already in a format suitable for plotting etc. By converting the date strings
-to Date objects we can extract info on week days vs. weekends for the later parts of the assignment.
+Using read.csv(), we have the data in a dataframe already in a format suitable for plotting. By converting the date strings to Date objects we can extract info on week days vs. weekends which will be used for rest of of the assignment.
 
 ## What is the mean total number of steps taken per day?
 
-For this part of the assignment we are asked to omit rows with NA values.
+For this part of the assignment we are asked to EXCLUDE rows with NA (not available) values.
 
 ```r
 activityDataCleaned <- activityData[complete.cases(activityData),]
@@ -47,9 +46,9 @@ print(nrow(activityDataCleaned))
 ```
 ## [1] 15264
 ```
-We see that a few thousand rows are removed in this manner.
+We see that a few thousand rows are dropped from the data set in this manner.
 
-Using ggplot2, we create a histogram of summed numbers of steps per date taken from these cleaned data:
+Using ggplot2, we create a histogram of summed numbers of steps per date taken from this  data set with out NA values:
 
 
 
@@ -120,7 +119,7 @@ print(length(which(is.na(activityData$steps))))
 ```
 
 
-As suggested in the assignment, we can (crudely) interpolate the NA values by taking the mean number of steps from the 'complete' dataset we obtained earlier. We copy the original data set, loop through it to find NA data, and use the 'mean steps per interval' table as a lookup table to fill in these values.
+As suggested in the assignment, we can interpolate the NA values by taking the mean number of steps from the 'complete' dataset we obtained earlier. We copy the original data set, loop through it to find NA data, and use the 'mean steps per interval' table as a lookup table to fill in these values.
 
 
 ```r
@@ -207,4 +206,4 @@ ggplot(data=pastedData, aes(x=Group.1, y=x)) +
 
 ![plot of chunk panel-plot-5-min-int](figure/panel-plot-5-min-int.png) 
 
-From the looks of these plots, there are much clearer 'peaks' in activity on week days then there are on weekend days -- presumably because during work hours the individual from whom the data were collected is often seated, and they walk mostly during their commute to and from work.
+By analysing the above plots, we can conclude that there are HIGH 'peaks' in activity on week days when compared to weekend days -- probably because during work hours the individual from whom the data was collected is often seated, and they walk mostly after work hours and during their commute to and from work.
